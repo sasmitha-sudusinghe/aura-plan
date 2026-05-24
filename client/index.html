@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraPlan - Semester Academic & Gym Dashboard</title>
+  <meta name="description" content="Manage your semester university modules, credits, past papers, daily study plans, and customized gym schedules with AuraPlan.">
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Decorative background elements -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header Section -->
+    <header class="main-header">
+      <div class="logo-area">
+        <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h1>AuraPlan</h1>
+      </div>
+      <p class="subtitle">Semester Academic Hub & Fitness Planner</p>
+    </header>
+
+    <!-- Dashboard Quick Stats / Highlights -->
+    <section class="highlights-grid">
+      <div class="highlight-card study-leave-card" id="study-leave-countdown-card">
+        <div class="card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="card-content">
+          <h3>Study Leave Starts</h3>
+          <p class="highlight-val">June 1st</p>
+          <span class="countdown-text" id="study-leave-countdown">Calculating countdown...</span>
+        </div>
+      </div>
+      <div class="highlight-card credits-card">
+        <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="card-content">
+          <h3>Total Semester Credits</h3>
+          <p class="highlight-val"><span id="total-credits-count">15</span> Credits</p>
+          <span class="countdown-text" style="color: var(--accent-purple);">Theory & Practical balanced</span>
+        </div>
+      </div>
+      <div class="highlight-card gym-card">
+        <div class="card-icon"><i class="fa-solid fa-dumbbell"></i></div>
+        <div class="card-content">
+          <h3>Weekly Gym Sessions</h3>
+          <p class="highlight-val"><span id="gym-weekly-count">3</span> Evenings</p>
+          <span class="countdown-text" style="color: var(--accent-primary);">Rugger ready condition</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" id="main-navigation">
+      <button class="tab-btn active" data-tab="exams" id="tab-exams-btn">
+        <i class="fa-solid fa-book-open"></i> Semester Modules & Study Tracker
+      </button>
+      <button class="tab-btn" data-tab="gym" id="tab-gym-btn">
+        <i class="fa-solid fa-dumbbell"></i> Customizable Gym Schedule
+      </button>
+      <button class="tab-btn" data-tab="calendar" id="tab-calendar-btn">
+        <i class="fa-solid fa-calendar-days"></i> Monthly Calendar View
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- MODULES / EXAMS TAB -->
+      <section class="tab-panel active" id="exams-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Academic Modules & Exam Prep</h2>
+            <p>Track credits, check off completed past papers, and manage your daily study plans.</p>
+          </div>
+          <div class="action-buttons-group">
+            <button class="btn btn-secondary" id="btn-reset-modules">
+              <i class="fa-solid fa-rotate-left"></i> Reload Semester Subjects
+            </button>
+            <button class="btn btn-primary" id="btn-add-exam">
+              <i class="fa-solid fa-plus"></i> Add Module
+            </button>
+          </div>
+        </div>
+
+        <!-- Academic Grid -->
+        <div class="modules-grid" id="modules-list">
+          <div class="loading-state"><i class="fa-solid fa-spinner fa-spin"></i> Loading academic modules...</div>
+        </div>
+      </section>
+
+      <!-- GYM TAB -->
+      <section class="tab-panel" id="gym-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Gym & Fitness Scheduler</h2>
+            <p>Keep your athletic edge with evening gym routines and rugby fitness</p>
+          </div>
+          <div class="action-buttons-group">
+            <button class="btn btn-secondary" id="btn-reset-gym">
+              <i class="fa-solid fa-rotate-left"></i> Default Schedule
+            </button>
+            <button class="btn btn-primary" id="btn-add-gym">
+              <i class="fa-solid fa-plus"></i> Add Session
+            </button>
+          </div>
+        </div>
+        <div class="table-container glass-panel">
+          <table class="data-table" id="gym-table">
+            <thead>
+              <tr>
+                <th style="width: 50px; text-align: center;">Done</th>
+                <th>Day of Week</th>
+                <th>Preferred Time</th>
+                <th>Activity Type</th>
+                <th>Focus & Routine</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="gym-list">
+              <tr class="loading-row"><td colspan="6"><i class="fa-solid fa-spinner fa-spin"></i> Loading gym schedule...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- UNIFIED CALENDAR TAB -->
+      <section class="tab-panel" id="calendar-panel">
+        <div class="panel-header">
+          <div>
+            <h2>Unified Schedule Calendar</h2>
+            <p>A month-at-a-glance view combining exams, study leaves, and rugby conditioning sessions. <strong>Click a calendar day to add daily logs, rugby drills, or task lists!</strong></p>
+          </div>
+          <div class="calendar-controls">
+            <button class="btn btn-secondary btn-small" id="prev-month-btn"><i class="fa-solid fa-chevron-left"></i></button>
+            <span class="calendar-month-year" id="calendar-month-year">June 2026</span>
+            <button class="btn btn-secondary btn-small" id="next-month-btn"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="calendar-wrapper glass-panel">
+          <div class="calendar-weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div class="calendar-days" id="calendar-days-grid">
+            <!-- Dynamically populated monthly calendar cells -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- EXAM / MODULE MODAL -->
+  <div class="modal-overlay" id="exam-modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 id="exam-modal-title">Add Academic Module</h3>
+        <button class="close-btn" id="close-exam-modal">&times;</button>
+      </div>
+      <form id="exam-form">
+        <input type="hidden" id="exam-id">
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="exam-moduleCode">Module Code</label>
+            <input type="text" id="exam-moduleCode" required placeholder="e.g. IT2244(T)">
+          </div>
+          <div class="form-group flex-1">
+            <label for="exam-credits">Credits</label>
+            <input type="number" id="exam-credits" required min="1" max="6" value="2">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exam-moduleName">Subject Name</label>
+          <input type="text" id="exam-moduleName" required placeholder="e.g. Operating Systems (Theory)">
+        </div>
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="exam-type">Subject Type</label>
+            <select id="exam-type" required>
+              <option value="Theory Only">Theory Only</option>
+              <option value="Practical Only">Practical Only</option>
+              <option value="Theory & Practical">Theory & Practical</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label for="exam-date">Exam Date</label>
+            <input type="date" id="exam-date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exam-description">General Notes / Prerequisites</label>
+          <textarea id="exam-description" rows="2" placeholder="e.g. Pre-requisite of IT1100. Includes both lab session and end paper."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="exam-dailyPlan">Daily Study Plan</label>
+          <textarea id="exam-dailyPlan" rows="3" placeholder="e.g. Day 1: Read slide 1-3. Day 2: Attempt lab exercises."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-exam">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Module</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GYM MODAL -->
+  <div class="modal-overlay" id="gym-modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 id="gym-modal-title">Add Gym Session</h3>
+        <button class="close-btn" id="close-gym-modal">&times;</button>
+      </div>
+      <form id="gym-form">
+        <input type="hidden" id="gym-id">
+        <div class="form-group">
+          <label for="gym-day">Day of Week</label>
+          <select id="gym-day" required>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="gym-time">Time</label>
+          <input type="time" id="gym-time" required value="18:00">
+        </div>
+        <div class="form-group">
+          <label for="gym-activity">Activity Type</label>
+          <input type="text" id="gym-activity" required placeholder="e.g. Strength Training, Rugger Conditioning">
+        </div>
+        <div class="form-group">
+          <label for="gym-notes">Routine / Notes</label>
+          <textarea id="gym-notes" rows="3" placeholder="e.g. Legs and shoulder press, mobility drills."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-gym">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Session</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CALENDAR NOTE / DIARY MODAL -->
+  <div class="modal-overlay" id="calendar-note-modal">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3>Calendar Daily Logs & Notes</h3>
+        <button class="close-btn" id="close-calendar-note-modal">&times;</button>
+      </div>
+      <form id="calendar-note-form">
+        <input type="hidden" id="note-date">
+        <div class="form-group">
+          <label for="calendar-note-display-date">Selected Date</label>
+          <input type="text" id="calendar-note-display-date" readonly style="background: rgba(255,255,255,0.03); border: none; font-weight: 700; color: var(--accent-primary);">
+        </div>
+        <div class="form-group">
+          <label for="calendar-note-text">Daily Notes / Rugby Drills / Study Tasks</label>
+          <textarea id="calendar-note-text" rows="5" placeholder="e.g. Scrum training at 3:00 PM. Read Operating Systems CPU schedulers. Prepare past paper 2023."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-calendar-note">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Daily Notes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notifications container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Client Script files -->
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
