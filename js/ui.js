@@ -514,6 +514,13 @@ btnResetModules.addEventListener('click', async () => {
         await API.deleteExam(m._id);
       }
       
+      // Last 3 past paper years auto-seeded for every module
+      const defaultPastPapers = [
+        { year: '2023', completed: false },
+        { year: '2024', completed: false },
+        { year: '2025', completed: false },
+      ];
+
       const defaults = [
         {
           moduleCode: 'IT2244(T)',
@@ -523,7 +530,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-10',
           description: 'CPU schedulers, process synchronization, and virtual memory systems.',
           dailyPlan: 'Day 1: Study Round-Robin, FCFS and SJF scheduling.\nDay 2: Mutex, Semaphores and Deadlock models.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2244(P)',
@@ -533,7 +541,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-11',
           description: 'OS Practical labs, bash scripting, process forks.',
           dailyPlan: 'Day 1: Practice fork(), exec(), wait() code blocks.\nDay 2: Write bash scripts for system diagnostics.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2234(T)',
@@ -543,7 +552,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-17',
           description: 'SOA architectures, Web Services Standards, REST, SOAP protocols.',
           dailyPlan: 'Day 1: SOAP vs REST architecture patterns.\nDay 2: HTTP status codes and middleware structures.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2234(P)',
@@ -553,7 +563,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-18',
           description: 'Backend Node.js programming, JSON validation, API endpoints.',
           dailyPlan: 'Day 1: Set up Express server with routes.\nDay 2: Integrate MongoDB using Mongoose schemas.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2223(T)',
@@ -563,7 +574,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-24',
           description: 'Divide & Conquer, Dynamic Programming, Greedy Algorithms complexity proofs.',
           dailyPlan: 'Day 1: Big O, Omega, Theta notations and math limits.\nDay 2: Knapsack problem and coin change solutions.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2223(P)',
@@ -573,7 +585,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-25',
           description: 'Algorithmic sorting programs, graph traversals simulations.',
           dailyPlan: 'Day 1: Code QuickSort and MergeSort programs.\nDay 2: Code BFS and DFS graph search paths.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2252',
@@ -583,7 +596,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-14',
           description: 'Ethics, licensing, computer laws, professional standards.',
           dailyPlan: 'Day 1: Read computer crime laws and data privacy bills.\nDay 2: Study professional codes of ethics.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         },
         {
           moduleCode: 'IT2212',
@@ -593,7 +607,8 @@ btnResetModules.addEventListener('click', async () => {
           date: '2026-06-21',
           description: 'ERP systems, enterprise databases, decision intelligence models.',
           dailyPlan: 'Day 1: Study CRM, SCM, and ERP architectures.\nDay 2: Read about transaction processing systems.',
-          completed: false
+          completed: false,
+          pastPapers: [...defaultPastPapers.map(p => ({...p}))]
         }
       ];
       
@@ -687,6 +702,12 @@ examForm.addEventListener('submit', async (e) => {
       await API.updateExam(id, examData);
       showToast('Subject updated successfully! 📚');
     } else {
+      // Auto-seed last 3 years of past papers for new modules
+      examData.pastPapers = [
+        { year: '2023', completed: false },
+        { year: '2024', completed: false },
+        { year: '2025', completed: false },
+      ];
       await API.addExam(examData);
       showToast('Subject scheduled successfully! 📚');
     }
