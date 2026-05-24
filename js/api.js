@@ -48,7 +48,22 @@ const API = {
   // ----------------------------------------------------------
 
   async getExams() {
-    return _resolve(_load(KEYS.exams));
+    const exams = _load(KEYS.exams);
+    // Auto-migrate: seed past papers for modules that don't have them yet
+    const DEFAULT_PAPERS = [
+      { year: '2023', completed: false },
+      { year: '2024', completed: false },
+      { year: '2025', completed: false },
+    ];
+    let migrated = false;
+    exams.forEach(exam => {
+      if (!exam.pastPapers || exam.pastPapers.length === 0) {
+        exam.pastPapers = DEFAULT_PAPERS.map(p => ({ ...p }));
+        migrated = true;
+      }
+    });
+    if (migrated) _save(KEYS.exams, exams);
+    return _resolve(exams);
   },
 
   async addExam(examData) {
