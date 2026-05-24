@@ -338,15 +338,24 @@ async function loadModules() {
       const studyCompletedClass = m.completed ? 'study-completed' : '';
       const studyChecked = m.completed ? 'checked' : '';
       
-      // Build past papers checklist
+      // Build past papers checklist — real labeled checkboxes
       const pastPapersHtml = (m.pastPapers || []).map(p => {
-        const activeClass = p.completed ? 'completed' : '';
+        const checkedAttr = p.completed ? 'checked' : '';
+        const doneClass   = p.completed ? 'pp-done' : '';
         return `
-          <div class="past-paper-item ${activeClass}" onclick="togglePaper('${m._id}', '${p.year}', ${!p.completed})">
-            ${p.year}
-          </div>
+          <label class="past-paper-checkbox ${doneClass}">
+            <input type="checkbox" ${checkedAttr}
+              onchange="togglePaper('${m._id}', '${p.year}', this.checked)">
+            <span class="pp-year">${p.year}</span>
+            <i class="fa-solid fa-check pp-tick"></i>
+          </label>
         `;
       }).join('');
+
+      // Fallback if pastPapers is still empty
+      const papersBlock = pastPapersHtml.trim()
+        ? pastPapersHtml
+        : '<span style="color:rgba(255,255,255,.35);font-size:.78rem;">No past papers – reload semester subjects</span>';
       
       return `
         <div class="module-card ${creditColorClass} ${studyCompletedClass}">
@@ -377,7 +386,7 @@ async function loadModules() {
           <div class="past-papers-section">
             <span class="past-papers-title">Past Papers Check</span>
             <div class="past-papers-list">
-              ${pastPapersHtml}
+              ${papersBlock}
             </div>
           </div>
 

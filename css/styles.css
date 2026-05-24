@@ -576,6 +576,66 @@ body {
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
 }
 
+/* New labeled checkbox style for past papers */
+.past-paper-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+  user-select: none;
+  position: relative;
+}
+
+.past-paper-checkbox input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--accent-green);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.past-paper-checkbox .pp-year {
+  flex: 1;
+  text-align: center;
+}
+
+.past-paper-checkbox .pp-tick {
+  display: none;
+  color: var(--accent-green);
+  font-size: 0.7rem;
+}
+
+.past-paper-checkbox:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-highlight);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.past-paper-checkbox.pp-done {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: var(--accent-green);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.15);
+}
+
+.past-paper-checkbox.pp-done .pp-tick {
+  display: inline;
+}
+
+.past-papers-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
 /* Daily Study Plan text box inside card */
 .daily-plan-section {
   display: flex;
